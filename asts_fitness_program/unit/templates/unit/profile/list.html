@@ -4,7 +4,7 @@
     <h1>Profiles</h1>
     {% for profile in all_profile_list %}
         <h2>
-            <a href="{{ profile.get_absolute_url }}">
+            <a href="{{ profile.airman_id.get_absolute_url }}">
                 {{ profile.airman_id}}
             </a>
         </h2>

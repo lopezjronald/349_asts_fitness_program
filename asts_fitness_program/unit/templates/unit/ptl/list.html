@@ -4,15 +4,15 @@
     <h1>Physical Training Leaders</h1>
     {% for ptl in all_ptl_list %}
         <h2>
-            <a href="{{ ptl.get_absolute_url }}">
+            <a href="{{ ptl.airman_id.get_absolute_url }}">
                 {{ ptl.airman_id}}
             </a>
         </h2>
         <p class="date">
-            PTL Certification Date: {{ ptl.ptl_certification_date }}
+            Certification Date: {{ ptl.ptl_certification_date }}
         </p>
         <p class="date">
-            PTL Expiration Date: {{ ptl.ptl_expiration_date }}
+            Expiration Date: {{ ptl.ptl_expiration_date }}
         </p>
         <p class="date">CPR Expiration Date: {{ ptl.cpr_expiration_date }}</p>
     {% endfor %}

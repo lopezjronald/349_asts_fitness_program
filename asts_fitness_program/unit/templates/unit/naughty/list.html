@@ -4,7 +4,7 @@
     <h1>Failure, Unsatisfactory, & Non-Current</h1>
     {% for naughty in all_naughty_list %}
         <h2>
-            <a href="{{ naughty.get_absolute_url }}">
+            <a href="{{ naughty.airman_id.get_absolute_url }}">
                 {{ naughty.airman_id}}
             </a>
         </h2>
