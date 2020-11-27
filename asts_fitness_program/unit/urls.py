@@ -10,7 +10,7 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/<slug:airman>/',
          views.airman_detail,
          name='airman_detail'),
-    path('failures/', views.FailureListView.as_view(), name='all_failure_list'),
+    path('naughty/', views.NaughtyListView.as_view(), name='all_naughty_list'),
     path('profiles/', views.ProfileListView.as_view(), name='all_profile_list'),
     path('ptls/', views.PhysicalTrainingLeaderListView.as_view(), name='all_ptl_list'),
     path('ufpms/', views.UnitFitnessProgramManagerListView.as_view(), name='all_ufpm_list'),

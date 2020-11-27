@@ -79,13 +79,20 @@ class Airman(models.Model):
                              self.airman_slug])
 
 
-class Failure(models.Model):
-    failure_id = models.AutoField(primary_key=True, serialize=True)
+class Naughty(models.Model):
+    NAUGHTY_CHOICE = (
+        ('Fail', 'FAIL'),
+        ('Unsatisfactory', 'UNSATISFACTORY'),
+        ('Non-Current', 'NON-CURRENT'),
+    )
+    naughty_id = models.AutoField(primary_key=True, serialize=True)
     airman_id = models.ForeignKey(
         Airman,
         on_delete=models.CASCADE, )
     failure_date = models.DateField()
     be_well_completion_date = models.DateField()
+    status_level = models.CharField(max_length=50,
+                                    choices=NAUGHTY_CHOICE, )
 
     class Meta:
         ordering = ('-failure_date',)

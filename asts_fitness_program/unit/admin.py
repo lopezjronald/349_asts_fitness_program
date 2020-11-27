@@ -1,25 +1,25 @@
 from django.contrib import admin
-from .models import Airman, Profile, Failure, Physical_Training_Leader, Unit_Fitness_Program_Manager
+from .models import Airman, Profile, Naughty, Physical_Training_Leader, Unit_Fitness_Program_Manager
 
 
 class ProfileInline(admin.TabularInline):
     model = Profile
-    extra = 0
+    extra = 1
 
 
-class FailureInline(admin.TabularInline):
-    model = Failure
-    extra = 0
+class NaughtyInline(admin.TabularInline):
+    model = Naughty
+    extra = 1
 
 
 class PhysicalTrainingLeaderInline(admin.TabularInline):
     model = Physical_Training_Leader
-    extra = 0
+    extra = 1
 
 
 class UnitFitnessProgramManagerInline(admin.TabularInline):
     model = Unit_Fitness_Program_Manager
-    extra = 0
+    extra = 1
 
 
 # Register your models here.
@@ -29,7 +29,7 @@ class AirmanAdmin(admin.ModelAdmin):
 
     inlines = [
         ProfileInline,
-        FailureInline,
+        NaughtyInline,
         PhysicalTrainingLeaderInline,
         UnitFitnessProgramManagerInline,
     ]
@@ -59,9 +59,9 @@ class ProfileAdmin(admin.ModelAdmin):
     ordering = ('-profile_expiration_date',)
 
 
-@admin.register(Failure)
-class FailureAdmin(admin.ModelAdmin):
-    list_display = ('airman_id', 'failure_date', 'be_well_completion_date',)
+@admin.register(Naughty)
+class NaughtyAdmin(admin.ModelAdmin):
+    list_display = ('airman_id', 'failure_date', 'be_well_completion_date', 'status_level')
     list_filter = ('failure_date',)
     search_fields = ('failure_date',)
     date_hierarchy = 'failure_date'
