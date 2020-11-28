@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render, get_object_or_404
-from .models import Airman, Naughty, Profile, Physical_Training_Leader, Unit_Fitness_Program_Manager
+from .models import Airman, Naughty, Profile, PhysicalTrainingLeader, UnitFitnessProgramManager
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from .forms import SearchForm
 
@@ -96,12 +96,12 @@ class ProfileListView(ListView):
 
 
 class PhysicalTrainingLeaderListView(ListView):
-    model = Physical_Training_Leader
+    model = PhysicalTrainingLeader
     template_name = 'unit/ptl/list.html'
     context_object_name = 'all_ptl_list'
 
 
 class UnitFitnessProgramManagerListView(ListView):
-    model = Unit_Fitness_Program_Manager
+    model = UnitFitnessProgramManager
     template_name = 'unit/ufpm/list.html'
     context_object_name = 'all_ufpm_list'

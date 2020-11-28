@@ -9,8 +9,8 @@ class ActiveManager(models.Manager):
 
 class Airman(models.Model):
     ACTIVE_CHOICE = (
-        ('active', 'active'),
-        ('inactive', 'inactive'),
+        ('Active', 'Active'),
+        ('Inactive', 'Inactive'),
     )
 
     RANK_CHOICE = (
@@ -49,9 +49,9 @@ class Airman(models.Model):
     rank = models.CharField(max_length=10,
                             choices=RANK_CHOICE,
                             default='AB')
-    first_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=20)
     middle_initial = models.CharField(max_length=5)
-    last_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=20)
     ssn = models.IntegerField()
     airman_slug = models.SlugField(max_length=50,
                                    unique_for_date='test_date')
@@ -60,9 +60,11 @@ class Airman(models.Model):
     ufpm = models.BooleanField(default=False)
     active_status = models.CharField(max_length=10,
                                      choices=ACTIVE_CHOICE,
-                                     default='active')
+                                     default='Active')
 
     class Meta:
+        verbose_name = 'Airman'
+        verbose_name_plural = 'Airmen'
         ordering = ('last_name',)
 
     def __str__(self):
@@ -95,13 +97,15 @@ class Naughty(models.Model):
                                     choices=NAUGHTY_CHOICE, )
 
     class Meta:
+        verbose_name = 'Failure, Unsatisfactory, & Non-Current'
+        verbose_name_plural = 'Failures, Unsatisfactory, & Non-Currents'
         ordering = ('-failure_date',)
 
     def __str__(self):
         return f"{self.airman_id}"
 
 
-class Physical_Training_Leader(models.Model):
+class PhysicalTrainingLeader(models.Model):
     ptl_id = models.AutoField(primary_key=True, serialize=True)
     airman_id = models.ForeignKey(
         Airman,
@@ -111,24 +115,28 @@ class Physical_Training_Leader(models.Model):
     cpr_expiration_date = models.DateField()
 
     class Meta:
+        verbose_name = 'PTL'
+        verbose_name_plural = 'PTLs'
         ordering = ('ptl_expiration_date',)
 
     def __str__(self):
         return f"{self.airman_id}"
 
 
-class Unit_Fitness_Program_Manager(models.Model):
+class UnitFitnessProgramManager(models.Model):
     ufpm_id = models.AutoField(primary_key=True, serialize=True)
     airman_id = models.ForeignKey(
         Airman,
         on_delete=models.CASCADE, )
     ptl_id = models.ForeignKey(
-        Physical_Training_Leader,
+        PhysicalTrainingLeader,
         on_delete=models.CASCADE, )
     ufpm_certification_date = models.DateField()
     ufpm_expiration_date = models.DateField()
 
     class Meta:
+        verbose_name = 'UFPM'
+        verbose_name_plural = 'UFPMs'
         ordering = ('ufpm_expiration_date',)
 
     def __str__(self):
@@ -145,6 +153,8 @@ class Profile(models.Model):
     profile_details = models.TextField()
 
     class Meta:
+        verbose_name = 'Profile'
+        verbose_name_plural = 'Profiles'
         ordering = ('profile_expiration_date',)
 
     def __str__(self):
