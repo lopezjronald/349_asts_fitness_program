@@ -8,22 +8,46 @@ admin.site.index_title = 'UFPM KICK-ASS ADMIN TEAM'
 
 class ProfileInline(admin.TabularInline):
     model = Profile
-    extra = 1
+    show_change_link = True
+
+    def get_extra(self, request, obj=None, **kwargs):
+        if obj:
+            return 0
+        else:
+            return 1
 
 
 class NaughtyInline(admin.TabularInline):
     model = Naughty
-    extra = 1
+    show_change_link = True
+
+    def get_extra(self, request, obj=None, **kwargs):
+        if obj:
+            return 0
+        else:
+            return 1
 
 
 class PhysicalTrainingLeaderInline(admin.TabularInline):
     model = PhysicalTrainingLeader
-    extra = 1
+    show_change_link = True
+
+    def get_extra(self, request, obj=None, **kwargs):
+        if obj:
+            return 0
+        else:
+            return 1
 
 
 class UnitFitnessProgramManagerInline(admin.TabularInline):
     model = UnitFitnessProgramManager
-    extra = 1
+    show_change_link = True
+
+    def get_extra(self, request, obj=None, **kwargs):
+        if obj:
+            return 0
+        else:
+            return 1
 
 
 # Register your models here.
@@ -36,7 +60,33 @@ class AirmanAdmin(admin.ModelAdmin):
         PhysicalTrainingLeaderInline,
         UnitFitnessProgramManagerInline,
     ]
+    # fields = ('rank',
+    #           ('first_name', 'middle_initial', 'last_name'), ('ssn', 'airman_slug'),
+    #           ('fitness_level', 'test_date'),
+    #           ('ptl', 'ufpm'),
+    #           'active_status')
 
+    save_on_top = True
+
+    fieldsets = (
+        ('AIRMAN INFORMATION', {
+            'fields': ('rank', ('first_name', 'middle_initial', 'last_name'), 'ssn')
+        }),
+        ('FITNESS INFORMATION', {
+            'fields': (('fitness_level', 'test_date'),),
+            'description': 'Fitness Level & Test Date',
+            'classes': ('wide',)
+        }),
+        ('FITNESS TEAM', {
+            'fields': (('ptl', 'ufpm'),),
+            'classes': ('collapse',)
+        }),
+        ('EXTRA', {
+            'fields': ('airman_slug',),
+            'classes': ('collapse',),
+        }),
+    )
+    readonly_fields = ('airman_id',)
     list_display = (
         'ssn', 'rank', 'first_name', 'middle_initial', 'last_name', 'test_date', 'fitness_level', 'active_status',)
     list_display_links = ('ssn',)
@@ -53,6 +103,9 @@ class AirmanAdmin(admin.ModelAdmin):
 # @admin.register(Physical_Training_Leader)
 @admin.register(PhysicalTrainingLeader)
 class PhysicalTrainingLeaderAdmin(admin.ModelAdmin):
+    inlines = [
+        UnitFitnessProgramManagerInline,
+    ]
     list_display = ('airman_id', 'ptl_certification_date', 'ptl_expiration_date', 'cpr_expiration_date')
     list_editable = ('ptl_certification_date', 'ptl_expiration_date', 'cpr_expiration_date',)
     list_filter = ('ptl_expiration_date', 'cpr_expiration_date')
