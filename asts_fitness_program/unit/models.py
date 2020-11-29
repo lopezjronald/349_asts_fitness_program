@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
@@ -64,7 +65,7 @@ class Airman(models.Model):
 
     class Meta:
         verbose_name = 'Airman'
-        verbose_name_plural = 'Airmen'
+        verbose_name_plural = 'AIRMEN'
         ordering = ('last_name',)
 
     def __str__(self):
@@ -98,8 +99,13 @@ class Naughty(models.Model):
 
     class Meta:
         verbose_name = 'Failure, Unsatisfactory, & Non-Current'
-        verbose_name_plural = 'Failures, Unsatisfactory, & Non-Currents'
+        verbose_name_plural = 'FAILURE, UNSATISFACTORY, & NON-CURRENTS'
         ordering = ('-failure_date',)
+
+    def clean(self):
+        if self.failure_date and self.be_well_completion_date:
+            if self.failure_date > self.be_well_completion_date:
+                raise ValidationError('Failure Date cannot be after the Be Well Completion Date')
 
     def __str__(self):
         return f"{self.airman_id}"
@@ -115,9 +121,14 @@ class PhysicalTrainingLeader(models.Model):
     cpr_expiration_date = models.DateField()
 
     class Meta:
-        verbose_name = 'PTL'
-        verbose_name_plural = 'PTLs'
+        verbose_name = 'Physical Training Leader'
+        verbose_name_plural = 'PHYSICAL TRAINING LEADERS'
         ordering = ('ptl_expiration_date',)
+
+    def clean(self):
+        if self.ptl_certification_date and self.ptl_expiration_date:
+            if self.ptl_certification_date >= self.ptl_expiration_date:
+                raise ValidationError('Expiration Date must be later than the Certification Date')
 
     def __str__(self):
         return f"{self.airman_id}"
@@ -135,9 +146,17 @@ class UnitFitnessProgramManager(models.Model):
     ufpm_expiration_date = models.DateField()
 
     class Meta:
-        verbose_name = 'UFPM'
-        verbose_name_plural = 'UFPMs'
+        verbose_name = 'Unit Fitness Program Manager'
+        verbose_name_plural = 'UNIT FITNESS PROGRAM MANAGERS'
         ordering = ('ufpm_expiration_date',)
+
+    def clean(self):
+        if self.ufpm_certification_date and self.ufpm_expiration_date:
+            if self.ufpm_certification_date >= self.ufpm_expiration_date:
+                raise ValidationError('Expiration Date must be later than the Certification Date')
+        if self.airman_id and self.ptl_id:
+            if str(self.airman_id) != str(self.ptl_id):
+                raise ValidationError("Airman ID and PTL ID Must Match")
 
     def __str__(self):
         return f"{self.airman_id}"
@@ -154,8 +173,13 @@ class Profile(models.Model):
 
     class Meta:
         verbose_name = 'Profile'
-        verbose_name_plural = 'Profiles'
+        verbose_name_plural = 'PROFILES'
         ordering = ('profile_expiration_date',)
+
+    def clean(self):
+        if self.profile_start_date and self.profile_expiration_date:
+            if self.profile_start_date > self.profile_expiration_date:
+                raise ValidationError('Profile Start Date must be later than the Profile Expiration Date')
 
     def __str__(self):
         return f"{self.airman_id}"

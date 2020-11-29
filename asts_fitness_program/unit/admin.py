@@ -3,7 +3,7 @@ from .models import Airman, Profile, Naughty, PhysicalTrainingLeader, UnitFitnes
 
 admin.site.site_header = '349 ASTS FITNESS PROGRAM'
 admin.site.site_title = '349 ASTS Fitness Program'
-admin.site.index_title = 'UFPM KICK-ASS ADMIN TEAM'
+admin.site.index_title = 'UFPM ADMIN TEAM'
 
 
 class ProfileInline(admin.TabularInline):
